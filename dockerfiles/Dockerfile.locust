@@ -1,12 +1,10 @@
-FROM alpine:latest
+FROM python:3.6.6-alpine3.8
 
-RUN apk --update --no-cache add \
-	python \
-        python-dev \
-        build-base \
-        py-pip
+RUN apk --no-cache add g++ \ 
+      && apk --no-cache add zeromq-dev \
+      && pip install locustio pyzmq
 
-RUN pip install locustio pyzmq
+EXPOSE 8089 5557 5558
 
-ENTRYPOINT ["/usr/bin/locust"]
+ENTRYPOINT ["/usr/local/bin/locust"]
 CMD ["--help"]
